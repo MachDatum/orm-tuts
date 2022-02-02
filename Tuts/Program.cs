@@ -1,23 +1,17 @@
 using Tuts;
 using Tuts.Models;
+using Tuts.Repositories;
 
 var session = Helper.OpenSession("User Id=postgres;Password=MachDatum.1;Host=localhost;Database=orm-tuts");
 
-//session.Save(new User
-//{
-//    Name = "Hemanand"
-//});
-//session.Flush();
-var users = session.Query<User>().ToList();
+var userRepository = new UserRepository(session);
+var addressRepository = new Repository<Address>(session);
+var groupRepository = new Repository<Group>(session);
 
-
+var deletingUser = userRepository.Get(1);
+userRepository.Delete(deletingUser);
 
 var builder = WebApplication.CreateBuilder(args);
-
-var user = session.Get<User>(1);
-user.Name = "Hemanand R";
-session.Update(user);
-session.Flush();
 
 // Add services to the container.
 
